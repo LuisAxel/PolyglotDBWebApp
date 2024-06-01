@@ -1,0 +1,14 @@
+# Utiliza la imagen oficial de PostgreSQL como base
+FROM postgres:latest
+
+# Variables de entorno para la base de datos y credenciales
+ENV POSTGRES_DB=diagram_db \
+    POSTGRES_USER=admin \
+    POSTGRES_PASSWORD=admin123 \
+    TZ=America/Mexico_City
+
+# Scripts de inicio
+COPY init-scripts/* /docker-entrypoint-initdb.d/
+
+# Puerto de PostgreSQL
+EXPOSE 5432
