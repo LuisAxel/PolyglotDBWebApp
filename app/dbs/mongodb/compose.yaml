@@ -8,6 +8,8 @@ services:
     entrypoint: ["mongod", "--replSet", "ReplicaSet", "--bind_ip", "localhost,mongo1"]
     volumes:
       - mongo1_data:/data/db
+    networks:
+    - mongo-network
   mongo2:
     image: mongo:6
     hostname: mongo2
@@ -17,6 +19,8 @@ services:
     entrypoint: ["mongod", "--replSet", "ReplicaSet", "--bind_ip", "localhost,mongo2"]
     volumes:
       - mongo2_data:/data/db
+    networks:
+    - mongo-network
   mongo3:
     image: mongo:6
     hostname: mongo3
@@ -31,6 +35,8 @@ services:
     ports:
       - 27020:27017
     entrypoint: ["mongod", "--replSet", "ReplicaSet", "--bind_ip", "localhost,mongo4"]
+    networks:
+    - mongo-network
   mongosetup:
     image: mongo:6
     depends_on:
@@ -46,3 +52,7 @@ services:
 volumes:
   mongo1_data:
   mongo2_data:
+
+networks:
+  mongo-network:
+    driver: bridge
