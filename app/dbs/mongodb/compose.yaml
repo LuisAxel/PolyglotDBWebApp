@@ -9,7 +9,8 @@ services:
     volumes:
       - mongo1_data:/data/db
     networks:
-    - mongo-network
+      mongo-network:
+        ipv4_address: 192.168.80.2
   mongo2:
     image: mongo:6
     hostname: mongo2
@@ -20,7 +21,8 @@ services:
     volumes:
       - mongo2_data:/data/db
     networks:
-    - mongo-network
+      mongo-network:
+        ipv4_address: 192.168.80.3
   mongo3:
     image: mongo:6
     hostname: mongo3
@@ -28,6 +30,11 @@ services:
     ports:
       - 27019:27017
     entrypoint: ["mongod", "--replSet", "ReplicaSet", "--bind_ip", "localhost,mongo3"]
+    volumes:
+      - mongo3_data:/data/db
+    networks:
+      mongo-network:
+        ipv4_address: 192.168.80.5
   mongo4:
     image: mongo:6
     hostname: mongo4
@@ -35,8 +42,11 @@ services:
     ports:
       - 27020:27017
     entrypoint: ["mongod", "--replSet", "ReplicaSet", "--bind_ip", "localhost,mongo4"]
+    volumes:
+      - mongo4_data:/data/db
     networks:
-    - mongo-network
+      mongo-network:
+        ipv4_address: 192.168.80.4
   mongosetup:
     image: mongo:6
     depends_on:
@@ -48,11 +58,17 @@ services:
       - .:/scripts
     restart: "no"
     entrypoint: [ "bash", "/scripts/mongo_setup.sh"]
-
+    networks:
+      - mongo-network
 volumes:
   mongo1_data:
   mongo2_data:
+  mongo3_data:
+  mongo4_data:
 
 networks:
   mongo-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.80.0/24
