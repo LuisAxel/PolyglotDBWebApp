@@ -12,12 +12,18 @@ const createUser = async (usuario_id, nombre, correo) => {
   }
 };
 
-const createDiagram = async (diagrama_id, nombre, creacion, modificacion) => {
+const createDiagram = async (diagrama_id, nombre, creacion, modificacion, usuario_id) => {
   try {
     const result = await session.run(
-      'CREATE (d:DIAGRAMA {diagrama_id: $diagrama_id, nombre: $nombre, creacion: $creacion, modificacion: $modificacion}) RETURN d',
-      { diagrama_id, nombre, creacion, modificacion }
+      `
+      MATCH (u:USUARIO {usuario_id: $usuario_id})
+      CREATE (d:DIAGRAMA {diagrama_id: $diagrama_id, nombre: $nombre, creacion: $creacion, modificacion: $modificacion})
+      CREATE (u)-[:CREA {creacion: $creacion}]->(d)
+      RETURN d
+      `,
+      { diagrama_id, nombre, creacion, modificacion, usuario_id }
     );
+    console.log(result)
     return result.records[0].get('d').properties;
   } catch (error) {
     throw error;
@@ -146,10 +152,9 @@ const updateDiagrama = async (diagrama_id, updates) => {
 const deleteUsuario = async (usuario_id) => {
     try {
     const result = await session.run(
-        'MATCH (u:USUARIO {usuario_id: $usuario_id}) DELETE u RETURN count(u) as deleted',
+        'MATCH (u:USUARIO {usuario_id: $usuario_id}) DETACH DELETE u RETURN count(u) as deleted',
         { usuario_id }
     );
-    console.log(result);
     return result.records[0].get('deleted');
     } catch (error) {
     throw error;
@@ -159,7 +164,7 @@ const deleteUsuario = async (usuario_id) => {
 const deleteDiagrama = async (diagrama_id) => {
     try {
     const result = await session.run(
-        'MATCH (d:DIAGRAMA {diagrama_id: $diagrama_id}) DELETE d RETURN count(d) as deleted',
+        'MATCH (d:DIAGRAMA {diagrama_id: $diagrama_id}) DETACH DELETE d RETURN count(d) as deleted',
         { diagrama_id }
     );
     return result.records[0].get('deleted');

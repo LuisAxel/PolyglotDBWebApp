@@ -17,10 +17,11 @@ app.post('/usuario', async (req, res) => {
 });
 
 // CREATE DIAGRAMA
-app.post('/diagrama', async (req, res) => {
+app.post('/diagrama/:usuario_id', async (req, res) => {
+    const { usuario_id } = req.params;
     const { diagrama_id, nombre, creacion, modificacion } = req.body;
     try {
-        const diagrama = await Model.createDiagram(parseInt(diagrama_id), nombre, creacion, modificacion);
+        const diagrama = await Model.createDiagram(parseInt(diagrama_id), nombre, creacion, modificacion, parseInt(usuario_id));
         res.json(diagrama);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -63,10 +64,10 @@ app.get('/diagrama/:diagrama_id', async (req, res) => {
 });
 
 // GET DIAGRAMAS BY USUARIOID
-app.get('/diagrama/:usuario_id', async (req, res) => {
+app.get('/diagrama/usuario/:usuario_id', async (req, res) => {
     const { usuario_id } = req.params;
     try {
-    const diagrama = await Model.getDiagramaByUsuarioId(parseInt(usuario_id));
+    const diagrama = await Model.getDiagramasByUsuarioId(parseInt(usuario_id));
     if (!diagrama) {
         return res.status(404).json({ message: 'Diagrama not found' });
     }
