@@ -17,38 +17,50 @@ Comprehensive documentation detailing the implementation (in Spanish) can be fou
     ```bash
     git clone https://github.com/LuisAxel/PolyglotDBWebApp
     ```
-
-2. Start the databases using the provided script:
+2. Configure hostnames in `/etc/hosts`:
+    ```
+    # Polyglot Persistence Web Application
+    192.168.80.2 mongo1
+    192.168.80.3 mongo2
+    192.168.80.5 mongo3
+    192.168.80.4 mongo4
+    
+    192.168.81.2 neo4j1
+    192.168.81.3 neo4j2
+    192.168.81.4 neo4j3
+    ```
+    
+3. Start the databases using the provided script:
     ```bash
     cd app/dbs
     ./start_dbs.sh
     ```
 
-3. Initialize the databases with default values:
+4. Initialize the databases with default values:
     ```bash
     cd app/dbs
     ./init-values.sh
     ```
 
-4. Start the APIs using the provided script:
+5. Start the APIs using the provided script:
     ```bash
     cd app/restapi
     ./init-api.sh
     ```
 
-5. Test the API functionality using the provided Python script:
+6. Test the API functionality using the provided Python script:
     ```bash
     cd app/demo
     python3 demo.py
     ```
 
-6. Stop the APIs:
+7. Stop the APIs:
     ```bash
     cd app/dbs
     ./stop-api.sh
     ```
 
-7. Stop the databases:
+8. Stop the databases:
     ```bash
     cd app/dbs
     ./stop_dbs.sh
@@ -64,15 +76,10 @@ Comprehensive documentation detailing the implementation (in Spanish) can be fou
 
 ## System Information (Host Environment)
 - **Operating System:** Pop!_OS 22.04 LTS
-- **Version:** 22.04
-- **ID:** pop
-- **ID_LIKE:** ubuntu debian
-- **Pretty Name:** Pop!_OS 22.04 LTS
-- **Version ID:** 22.04
-- **Home URL:** [https://pop.system76.com](https://pop.system76.com)
-- **Support URL:** [https://support.system76.com](https://support.system76.com)
-- **Bug Report URL:** [https://github.com/pop-os/pop/issues](https://github.com/pop-os/pop/issues)
-- **Privacy Policy URL:** [https://system76.com/privacy](https://system76.com/privacy)
 - **Version Codename:** jammy
-- **Ubuntu Codename:** jammy
-- **Logo:** distributor-logo-pop-os
+- description: Notebook
+- product: GL553VD
+- processor	: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+- memory: 15Gi DDR4
+- gpu: NVIDIA Corporation GP107M [GeForce GTX 1050 Mobile]
+- network controller: Intel Corporation Wireless 7265
