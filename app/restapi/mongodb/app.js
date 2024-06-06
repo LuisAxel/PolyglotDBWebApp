@@ -68,12 +68,6 @@ router.put("/:id", async (req, res) => {
             console.error(`Error updating diagram: Diagram with ID ${id} not found`);
             return res.status(404).json({ error: `Diagram with ID ${id} not found` });
         }
-
-        // Check if it was updated
-        if (JSON.stringify(response) !== JSON.stringify(update)) {
-            console.error(`Document with ID ${id} wasn't updated`);
-            return res.status(400).json({ error: `Document with ID ${id} wasn't updated` });
-        }
         
         res.send(response);
     } catch (error) {

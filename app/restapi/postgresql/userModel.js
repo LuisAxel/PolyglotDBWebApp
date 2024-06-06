@@ -66,9 +66,9 @@ const updateUsuario = async (id, update) => {
 };
 
 const updateContrasenaByUsuarioId = async (usuario_id, update) => {
-    const { contrasena } = update;
-    const query = 'UPDATE contrasena SET contrasena = $2 WHERE usuario_id = $1 RETURNING *';
-    const values = [usuario_id, contrasena];
+    const { contrasena_hash } = update;
+    const query = 'UPDATE contrasena SET contrasena_hash = $2 WHERE usuario_id = $1 RETURNING *';
+    const values = [usuario_id, contrasena_hash];
     const result = await pool.query(query, values);
     return result.rows[0];
 };
