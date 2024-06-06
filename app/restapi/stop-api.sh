@@ -1,5 +1,7 @@
 #!/bin/bash
 
+API_DIRECTORY=$(dirname "$(readlink -f "$0")")
+
 stop_api() {
     local pattern="$1"
     local pid=$(pgrep -f "$pattern")
@@ -12,7 +14,7 @@ stop_api() {
     fi
 }
 
-stop_api "/postgresql/app.js"
-stop_api "/mongodb/app.js"
-stop_api "/riakkv/app.js"
-stop_api "/neo4j/app.js"
+stop_api "${API_DIRECTORY}/postgresql/app.js"
+stop_api "${API_DIRECTORY}/mongodb/app.js"
+stop_api "${API_DIRECTORY}/riakkv/app.js"
+stop_api "${API_DIRECTORY}/neo4j/app.js"

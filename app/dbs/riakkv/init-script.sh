@@ -17,9 +17,9 @@ echo "Creando y activando bucket-type ${BUCKET_TYPE}"
 RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "http://${COORDINATOR_IP}:${PORT}/types/${BUCKET_TYPE}/buckets?buckets=true")
 if [ "${RESPONSE}" -ne 200 ]; then
   echo "Creando bucket-type ${BUCKET_TYPE}..."
-  docker compose exec coordinator riak-admin bucket-type create ${BUCKET_TYPE} ${BUCKET_TYPE_JSON}
+  docker exec riakkv-coordinator-1 riak-admin bucket-type create ${BUCKET_TYPE} ${BUCKET_TYPE_JSON}
   echo "Activando bucket-type ${BUCKET_TYPE}..."
-  docker compose exec coordinator riak-admin bucket-type activate ${BUCKET_TYPE}
+  docker exec riakkv-coordinator-1 riak-admin bucket-type activate ${BUCKET_TYPE}
 else
   echo "El bucket-type ${BUCKET_TYPE} ya existe y se encuentra activado"
 fi
@@ -121,7 +121,7 @@ BUCKET="sesion"
 insert_and_verify() {
   local key=$1
   local value=$2
-  RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "http://${COORDINATOR_IP}:${PORT}/types/${BUCKET_TYPE}/buckets/${BUCKET}/keys/$key")
+  RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "http://${COORDINATOR_IP}:${PORT}/types/${BUCKET_TYPE}/buckets/${BUCKET}/keys/${key}")
   if [ "${RESPONSE}" -ne 200 ]; then
     echo "Insertando objeto con key: ${key}..."
     curl -XPUT "http://${COORDINATOR_IP}:${PORT}/types/${BUCKET_TYPE}/buckets/${BUCKET}/keys/${key}" -H "Content-Type: application/json" -d "${value}"

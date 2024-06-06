@@ -8,7 +8,8 @@ services:
       - "7473:7473"
       - "7687:7687"
     networks:
-      - neo4j-cluster
+      neo4j-cluster:
+        ipv4_address: 192.168.81.2
     environment:
       NEO4J_initial_server_mode__constraint: PRIMARY
       NEO4J_dbms_cluster_discovery_endpoints: neo4j1:5000,neo4j2:5000,neo4j3:5000
@@ -31,7 +32,8 @@ services:
       - "8473:7473"
       - "8687:7687"
     networks:
-      - neo4j-cluster
+      neo4j-cluster:
+        ipv4_address: 192.168.81.3
     environment:
       NEO4J_initial_server_mode__constraint: PRIMARY
       NEO4J_dbms_cluster_discovery_endpoints: neo4j1:5000,neo4j2:5000,neo4j3:5000
@@ -54,7 +56,8 @@ services:
       - "9473:7473"
       - "9687:7687"
     networks:
-      - neo4j-cluster
+      neo4j-cluster:
+        ipv4_address: 192.168.81.4
     environment:
       NEO4J_initial_server_mode__constraint: PRIMARY
       NEO4J_dbms_cluster_discovery_endpoints: neo4j1:5000,neo4j2:5000,neo4j3:5000
@@ -70,6 +73,9 @@ services:
 networks:
   neo4j-cluster:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.81.0/24
 
 volumes:
   neo4j1-data:

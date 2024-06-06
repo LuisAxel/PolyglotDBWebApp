@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_DIRECTORY=$(pwd)
+API_DIRECTORY=$(dirname "$(readlink -f "$0")")
 
 #Start all APIs
 node ${API_DIRECTORY}/postgresql/app.js &

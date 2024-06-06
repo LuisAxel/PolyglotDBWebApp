@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Step 1: Almacena la ruta de donde se ejecuta el script
-SCRIPT_LOCATION=$(pwd)
+SCRIPT_LOCATION=$(dirname "$(readlink -f "$0")")
 
 # Step 2: Inicia todas las dbs
 
