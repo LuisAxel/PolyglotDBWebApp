@@ -1,17 +1,18 @@
 #!/bin/bash
 
 stop_api() {
-    local pid=$(pgrep -f "$1")
+    local pattern="$1"
+    local pid=$(pgrep -f "$pattern")
     if [ -n "$pid" ]; then
-        echo "Stopping API $1 with PID $pid..."
+        echo "Stopping API $pattern with PID $pid..."
         kill "$pid"
-        echo "API $1 stopped."
+        echo "API $pattern stopped."
     else
-        echo "API $1 is not running."
+        echo "API $pattern is not running."
     fi
 }
 
-stop_api "postgresql"
-stop_api "mongodb"
-stop_api "riakkv"
-stop_api "neo4j"
+stop_api "/postgresql/app.js"
+stop_api "/mongodb/app.js"
+stop_api "/riakkv/app.js"
+stop_api "/neo4j/app.js"
